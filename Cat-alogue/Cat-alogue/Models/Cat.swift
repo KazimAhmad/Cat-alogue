@@ -7,8 +7,8 @@
 
 import Foundation
 // MARK: - Cat
-struct Cat: Codable {
-    let id: String
+public struct Cat: Codable {
+    public let id: String
     let width, height: Int
     let url: String
     let breeds: [Breed]
@@ -39,7 +39,7 @@ struct Cat: Codable {
         self.isFavorite = isFavorite
     }
     
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.width = try container.decode(Int.self, forKey: .width)
@@ -66,4 +66,12 @@ struct Cat: Codable {
         cat.update()
      }
     */
+}
+
+extension Cat: Identifiable, Hashable {
+    public static func == (lhs: Cat, rhs: Cat) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
+    public var identifier: String { self.id }
 }

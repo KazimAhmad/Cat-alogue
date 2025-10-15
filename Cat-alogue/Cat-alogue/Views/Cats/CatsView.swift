@@ -43,6 +43,12 @@ struct CatsView: View {
                 }
                 .padding(.horizontal)
             }
+            .navigationDestination(for: Routes.self) { route in
+                switch route {
+                case .detail(let cat):
+                    DetailView(viewModel: DetailViewModel(cat: cat))
+                }
+            }
         }
     }
     
@@ -129,6 +135,9 @@ struct CatsView: View {
                     CatView(cat: cat) { catToAddFav in
                         viewModel.addFav(for: catToAddFav)
                     }
+                    .onTapGesture {
+                        viewModel.goToDetail(cat)
+                    }
                 }
             }
         }
@@ -153,6 +162,9 @@ struct CatsView: View {
                 ForEach(viewModel.filteredCats, id: \.id) { cat in
                     CatView(cat: cat) { catToAddFav in
                         viewModel.addFav(for: catToAddFav)
+                    }
+                    .onTapGesture {
+                        viewModel.goToDetail(cat)
                     }
                 }
             }

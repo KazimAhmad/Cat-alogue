@@ -38,6 +38,7 @@
 				"Core/Extensions/String+Extension.swift",
 				"Core/Extensions/URLSession+Extension.swift",
 				Core/Helpers/Constants.swift,
+				Core/Helpers/Coordinator/Routes.swift,
 				Core/Helpers/ObserverObject.swift,
 				Core/Services.swift,
 				Core/Services/Endpoints/Endpoints.swift,

@@ -25,3 +25,13 @@ struct Breed: Codable {
         return try await Services.shared.request(Endpoints.breeds.path)
     }
 }
+
+extension Breed: Identifiable, Hashable {
+    public var identifier: String {
+        self.id
+    }
+    
+    public static func == (lhs: Breed, rhs: Breed) -> Bool {
+        return lhs.id == rhs.id
+    }
+}

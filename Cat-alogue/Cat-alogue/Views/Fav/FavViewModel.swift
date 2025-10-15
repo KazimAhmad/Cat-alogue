@@ -4,6 +4,7 @@
 //
 //  Created by Kazim Ahmad on 15/10/2025.
 //
+
 import Combine
 import Foundation
 import SwiftUI
@@ -22,6 +23,10 @@ class FavViewModel: ObservableObject {
         anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
             self?.objectWillChange.send()
         }
+    }
+    
+    func goToDetail(_ cat: Cat) {
+        path.append(Routes.detail(cat: cat))
     }
     
     func addFav(for cat: Cat) {

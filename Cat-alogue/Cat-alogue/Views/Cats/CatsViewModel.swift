@@ -35,6 +35,10 @@ class CatsViewModel: ObservableObject {
         getBreeds()
     }
     
+    func goToDetail(_ cat: Cat) {
+        path.append(Routes.detail(cat: cat))
+    }
+
     func showBreeds() -> Bool {
         return breeds.count > 0
     }
