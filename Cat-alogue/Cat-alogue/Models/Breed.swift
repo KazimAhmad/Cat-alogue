@@ -1,0 +1,23 @@
+//
+//  Breed.swift
+//  Cat-alogue
+//
+//  Created by Kazim Ahmad on 15/10/2025.
+//
+
+import Foundation
+// MARK: - Breed
+struct Breed: Codable {
+    let weight: Weight
+    let id, name, temperament, origin: String
+    let countryCodes, countryCode, lifeSpan: String
+    let wikipediaURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case weight, id, name, temperament, origin
+        case countryCodes = "country_codes"
+        case countryCode = "country_code"
+        case lifeSpan = "life_span"
+        case wikipediaURL = "wikipedia_url"
+    }
+}

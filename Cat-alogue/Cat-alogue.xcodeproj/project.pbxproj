@@ -43,9 +43,12 @@
 				Core/Services/Protocol/AppService.swift,
 				Core/Services/Protocol/AppServiceProtocol.swift,
 				Core/Session/Session.swift,
-				Core/Views/Onboarding/OnboardingView.swift,
-				Core/Views/Onboarding/OnboardingViewModel.swift,
+				Models/Breed.swift,
+				Models/Cat.swift,
+				Models/Weight.swift,
 				Resources/Assets.xcassets,
+				Views/Onboarding/OnboardingView.swift,
+				Views/Onboarding/OnboardingViewModel.swift,
 			);
 			target = 9FB108CC2E9F0CEE002D9376 /* Cat-alogueTests */;
 		};
