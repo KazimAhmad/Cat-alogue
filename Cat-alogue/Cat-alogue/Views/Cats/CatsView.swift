@@ -13,7 +13,7 @@ struct CatsView: View {
     var body: some View {
         NavigationStack(path: $viewModel.path) {
             ZStack {
-                backgroundView()
+                BackgroundView()
                 VStack {
                     headerView()
                     switch viewModel.viewState {
@@ -44,19 +44,6 @@ struct CatsView: View {
                 .padding(.horizontal)
             }
         }
-    }
-    
-    private func backgroundView() -> some View {
-        ZStack {
-            Image(Constants.imageBackground)
-                .resizable()
-            LinearGradient(colors: [.clear,
-                                    .accentColor.opacity(0.3)],
-                           startPoint: .leading,
-                           endPoint: .trailing)
-        }
-        .opacity(0.3)
-        .edgesIgnoringSafeArea(.vertical)
     }
     
     private func headerView() -> some View {
@@ -139,7 +126,9 @@ struct CatsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 200, maximum: 300)), count: 2)) {
                 ForEach(viewModel.cats, id: \.id) { cat in
-                    catView(cat: cat)
+                    CatView(cat: cat) { catToAddFav in
+                        viewModel.addFav(for: catToAddFav)
+                    }
                 }
             }
         }
@@ -162,43 +151,12 @@ struct CatsView: View {
             }
             LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 200, maximum: 300)), count: 2)) {
                 ForEach(viewModel.filteredCats, id: \.id) { cat in
-                    catView(cat: cat)
+                    CatView(cat: cat) { catToAddFav in
+                        viewModel.addFav(for: catToAddFav)
+                    }
                 }
             }
         }
-    }
-    
-    private func catView(cat: Cat) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.accentColor.opacity(0.8))
-                .frame(height: 300)
-            VStack {
-                if let imageURL = URL(string: cat.url) {
-                    AsyncImage(url: imageURL) { image in
-                        image
-                            .resizable()
-                            .frame(height: 200)
-                    } placeholder: {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                            .tint(.primary)
-                            .frame(height: 200)
-                    }
-                    Text(cat.id)
-                    Text(cat.breeds.first?.name ?? "No breed")
-                    Button {
-                        viewModel.addFav(for: cat)
-                    } label: {
-                        Image(systemName: cat.isFavorite ? "heart.fill" : "heart")
-                            .foregroundStyle(Color.white)
-                            .frame(width: 32, height: 32)
-                    }
-                }
-                Spacer()
-            }
-        }
-        .padding(.bottom, 4)
     }
 }
 

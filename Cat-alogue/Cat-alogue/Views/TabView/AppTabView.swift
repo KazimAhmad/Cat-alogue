@@ -19,7 +19,7 @@ struct AppTabView: View {
             }
             Tab("Fav", systemImage: "heart.fill",
                 value: 1) {
-                Text("Fav")
+                FavView(viewModel: FavViewModel())
             }
         }
     }

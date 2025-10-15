@@ -79,7 +79,7 @@ extension CoreDataManager: NSFetchedResultsControllerDelegate {
         }
     }
     
-    func fetchCats(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) {
+    func fetchCats(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) -> [Cat] {
         if let predicate = predicate {
             catsFRC.fetchRequest.predicate = predicate
         }
@@ -88,7 +88,7 @@ extension CoreDataManager: NSFetchedResultsControllerDelegate {
         }
         try? catsFRC.performFetch()
         if let newCats = catsFRC.fetchedObjects {
-            self.cats = newCats.map({ catCD in
+            return newCats.map({ catCD in
                 return Cat(id: catCD.id ?? "",
                            width: 200,
                            height: 200,
@@ -101,6 +101,8 @@ extension CoreDataManager: NSFetchedResultsControllerDelegate {
                                                countryCodes: nil, countryCode: nil, lifeSpan: nil, wikipediaURL: nil)],
                            isFavorite: catCD.is_fav)
             })
+        } else {
+            return []
         }
     }
     

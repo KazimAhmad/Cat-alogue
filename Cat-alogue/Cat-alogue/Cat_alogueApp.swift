@@ -24,7 +24,7 @@ struct MainView: View {
     
     var body: some View {
         if session.isSkipped {
-            CatsView(viewModel: CatsViewModel())
+            AppTabView()
         } else {
             OnboardingView(viewModel: OnboardingViewModel())
         }
