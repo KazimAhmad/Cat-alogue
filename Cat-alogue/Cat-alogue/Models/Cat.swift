@@ -13,6 +13,8 @@ struct Cat: Codable {
     let url: String
     let breeds: [Breed]
     
+    var isFavorite: Bool = false
+    
     //MARK: now using the object and async await i am using the object to play around with the CRUD from the API
     //so then i can use the object itself to access the method wherever i want in the app like:
 
@@ -26,6 +28,25 @@ struct Cat: Codable {
         }
         return try await Services.shared.request(Endpoints.images.path,
                                                  query: query)
+    }
+    
+    init(id: String, width: Int, height: Int, url: String, breeds: [Breed], isFavorite: Bool) {
+        self.id = id
+        self.width = width
+        self.height = height
+        self.url = url
+        self.breeds = breeds
+        self.isFavorite = isFavorite
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.width = try container.decode(Int.self, forKey: .width)
+        self.height = try container.decode(Int.self, forKey: .height)
+        self.url = try container.decode(String.self, forKey: .url)
+        self.breeds = try container.decode([Breed].self, forKey: .breeds)
+        self.isFavorite = false
     }
     
     /* and the same way to all of the operations on the object like

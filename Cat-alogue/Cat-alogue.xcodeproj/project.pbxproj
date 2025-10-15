@@ -33,6 +33,7 @@
 		9FB108F12E9F0DC1002D9376 /* Exceptions for "Cat-alogue" folder in "Cat-alogueTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/CoreDataManager.swift,
 				"Core/Extensions/NSNumber+Extension.swift",
 				"Core/Extensions/String+Extension.swift",
 				"Core/Extensions/URLSession+Extension.swift",

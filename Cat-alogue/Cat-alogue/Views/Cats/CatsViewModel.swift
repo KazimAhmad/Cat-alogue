@@ -5,6 +5,7 @@
 //  Created by Kazim Ahmad on 15/10/2025.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -22,7 +23,14 @@ class CatsViewModel: ObservableObject {
     @Published var isBreedsExpanded: Bool = false
     @Published var selectedBreed: Breed?
     
+    @Published private var dataManager: CoreDataManager
+    var anyCancellable: AnyCancellable? = nil
+
     init() {
+        self.dataManager = CoreDataManager.shared
+        anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
+            self?.objectWillChange.send()
+        }
         loadCats()
         getBreeds()
     }
@@ -44,12 +52,20 @@ class CatsViewModel: ObservableObject {
     }
     
     func loadCats() {
+        let catsFromCD = dataManager.cats
+        if catsFromCD.count > 0 {
+            cats = catsFromCD
+            viewState = .info
+            return
+        }
         Task {
             do {
                 let cats = try await Cat.get(limit: 40)
                 self.cats = cats
-                print(cats)
                 viewState = .info
+                for cat in cats {
+                    dataManager.updateAndSave(cat: cat)
+                }
             } catch {
                 viewState = .error(error)
             }
