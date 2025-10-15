@@ -24,12 +24,11 @@ struct CatsView: View {
                             if viewModel.isBreedsExpanded {
                                 breedsList()
                             }
-                            Text("Cats")
-                                .font(.title2)
-                                .foregroundStyle(Color.primary)
-                                .fontWeight(.heavy)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            catList()
+                            if viewModel.selectedBreed == nil {
+                                catList()
+                            } else {
+                                filteredCatList()
+                            }
                         }
                     case .error(let error):
                         Text(error.localizedDescription)
@@ -118,7 +117,7 @@ struct CatsView: View {
                                     .frame(height: 40)
                             }
                             .onTapGesture {
-                                print(breed.name)
+                                viewModel.didSelect(breed: breed)
                             }
                     }
                 }
@@ -128,9 +127,39 @@ struct CatsView: View {
     }
     
     private func catList() -> some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 200, maximum: 300)), count: 2)) {
-            ForEach(viewModel.cats, id: \.id) { cat in
-                catView(cat: cat)
+        VStack {
+            Text("Cats")
+                .font(.title2)
+                .foregroundStyle(Color.primary)
+                .fontWeight(.heavy)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 200, maximum: 300)), count: 2)) {
+                ForEach(viewModel.cats, id: \.id) { cat in
+                    catView(cat: cat)
+                }
+            }
+        }
+    }
+    
+    private func filteredCatList() -> some View {
+        VStack {
+            HStack {
+                Text("Cats in \(viewModel.selectedBreed?.name ?? "")")
+                    .font(.title2)
+                    .foregroundStyle(Color.primary)
+                    .fontWeight(.heavy)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    viewModel.didCancelSelection()
+                } label: {
+                    Image(systemName: "multiply")
+                }
+            }
+            LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 200, maximum: 300)), count: 2)) {
+                ForEach(viewModel.filteredCats, id: \.id) { cat in
+                    catView(cat: cat)
+                }
             }
         }
     }
