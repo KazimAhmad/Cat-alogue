@@ -32,4 +32,13 @@ final class Cat_alogueTests: XCTestCase {
         }
     }
 
+    func testCatsAPICall() async throws {
+        let cats = try await Cat.get(limit: 2)
+        XCTAssert(cats.count > 0)
+    }
+
+    func testBreedsAPICall() async throws {
+        let breeds = try await Breed.get()
+        XCTAssert(breeds.count > 0)
+    }
 }
