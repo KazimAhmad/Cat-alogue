@@ -30,6 +30,10 @@ struct CatsView: View {
                                 filteredCatList()
                             }
                         }
+                        .refreshable {
+                            //MARK: to delete all from core data and populate newly
+                            viewModel.deleteAll()
+                        }
                     case .error(let error):
                         Text(error.localizedDescription)
                     case .search:
@@ -183,6 +187,13 @@ struct CatsView: View {
                     }
                     Text(cat.id)
                     Text(cat.breeds.first?.name ?? "No breed")
+                    Button {
+                        viewModel.addFav(for: cat)
+                    } label: {
+                        Image(systemName: cat.isFavorite ? "heart.fill" : "heart")
+                            .foregroundStyle(Color.white)
+                            .frame(width: 32, height: 32)
+                    }
                 }
                 Spacer()
             }

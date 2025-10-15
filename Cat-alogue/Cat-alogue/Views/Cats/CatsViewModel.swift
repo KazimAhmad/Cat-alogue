@@ -51,6 +51,22 @@ class CatsViewModel: ObservableObject {
         viewState = .info
     }
     
+    func deleteAll() {
+        for cat in cats {
+            dataManager.delete(cat: cat)
+        }
+        cats.removeAll()
+        viewState = .loading
+        loadCats()
+    }
+    
+    func addFav(for cat: Cat) {
+        if let index = cats.firstIndex(where: { $0.id == cat.id }) {
+            cats[index].isFavorite.toggle()
+            dataManager.updateAndSave(cat: cats[index])
+        }
+    }
+    
     func loadCats() {
         let catsFromCD = dataManager.cats
         if catsFromCD.count > 0 {
