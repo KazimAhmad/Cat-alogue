@@ -10,8 +10,8 @@ import Foundation
 struct Breed: Codable {
     let weight: Weight
     let id, name, temperament, origin: String
-    let countryCodes, countryCode, lifeSpan: String
-    let wikipediaURL: String
+    let countryCodes, countryCode, lifeSpan: String?
+    let wikipediaURL: String?
 
     enum CodingKeys: String, CodingKey {
         case weight, id, name, temperament, origin
@@ -19,5 +19,9 @@ struct Breed: Codable {
         case countryCode = "country_code"
         case lifeSpan = "life_span"
         case wikipediaURL = "wikipedia_url"
+    }
+    
+    static func get() async throws -> [Self] {
+        return try await Services.shared.request(Endpoints.breeds.path)
     }
 }

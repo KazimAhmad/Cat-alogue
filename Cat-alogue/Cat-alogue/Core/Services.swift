@@ -51,6 +51,10 @@ class Services: AppServiceProtocol {
         /*
          request.setValue("\(tokenType) \(accessToken)", forHTTPHeaderField: "Authorization")
          */
+        //MARK: the api key should be saved in the server side for protection
+        let apiKey = "live_TcKJf1A4rcVHpLXSVktaRfCPeAQmNeZyqTEayKwJTcWIzMoAF6B2AStFmei2shXR"
+        request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
+
     }
     
     func skipAuth() {

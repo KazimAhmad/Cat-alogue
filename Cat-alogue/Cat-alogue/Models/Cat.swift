@@ -16,8 +16,14 @@ struct Cat: Codable {
     //MARK: now using the object and async await i am using the object to play around with the CRUD from the API
     //so then i can use the object itself to access the method wherever i want in the app like:
 
-    func get(limit: Int = 10) async throws -> Self {
-        let query: [String: Any] = ["limit": limit]
+    static func get(limit: Int = 10,
+                    breed: Breed? = nil) async throws -> [Self] {
+        var query: [String: Any] = ["limit": limit,
+                                    "include_breeds": true,
+                                    "include_categories": true]
+        if let breed = breed {
+            query["breed_ids"] = breed.id
+        }
         return try await Services.shared.request(Endpoints.images.path,
                                                  query: query)
     }
